@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from'react-dom';
 
 
-let dummyData = ['do dishes', 'clean my room', 'buy some bread', 'call your friend', 'take the dog out for a walk'];
+let dummyData = [{ taskText: "do dishes", completed: false },{ taskText: "Have fun", completed: true }];
 
 class TodoList extends React.Component { 
     constructor(props){
         super(props);
     }
     render() {
-        return (<ul>{dummyData.map((todo) => <Todo task={todo}/>)}</ul>);
+        return (<ul>{dummyData.map((todo) => <Todo task={todo.taskText} state={todo.completed}/>)}</ul>);
     }
 }
 
@@ -18,9 +18,28 @@ class Todo extends React.Component {
         super(props);
     }
     render() {
-        return (<li>{this.props.task}<button type="button">X</button></li>);
+         return (<li><button type="button">X</button> {this.props.state? <strike>{this.props.task}</strike> : this.props.task }</li>);
+        //return (<li><button type="button">X</button>{this.props.task}</li>);
+    }
+}
+
+class InputLine extends React.Component {
+    constructor(props){
+        super(props);
+    }
+    render() {
+        return (<div><input placeholder="task"></input><button type="submit">Add Todo</button></div>);
+    }
+}
+
+class TodoApp extends React.Component {
+    constructor(props){
+        super(props);
+    }
+    render() {
+        return (<div><InputLine /><TodoList/></div>);
     }
 }
 
 
-ReactDOM.render(<TodoList />, document.getElementById('root'));
+ReactDOM.render(<TodoApp />, document.getElementById('root'));
